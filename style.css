@@ -87,10 +87,11 @@
     --z-dropdown: 100;
     --z-sticky: 200;
     --z-fixed: 300;
-    --z-modal-backdrop: 400;
-    --z-modal: 500;
-    --z-popover: 600;
-    --z-tooltip: 700;
+    /* raise modal z-index above map/leaflet panes */
+    --z-modal-backdrop: 10000;
+    --z-modal: 10001;
+    --z-popover: 10002;
+    --z-tooltip: 10003;
     
     /* Safe Areas */
     --safe-top: env(safe-area-inset-top, 0);
@@ -190,6 +191,10 @@ a {
 .splash-screen.hidden {
     opacity: 0;
     visibility: hidden;
+}
+
+.splash-screen.hidden {
+    pointer-events: none;
 }
 
 .splash-content {
@@ -742,8 +747,10 @@ a {
 }
 .map-section {
     position: relative;
-    height: 320px;
-    margin-top: 60px; /* offset header */
+    /* increase map height for better visibility */
+    height: 360px;
+    /* reduce top offset so map sits a bit lower under header */
+    margin-top: 12px; /* offset header */
     z-index: 1;
 }
 
@@ -780,9 +787,10 @@ a {
     padding: var(--space-4);
     background: var(--white);
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
-    margin-top: -20px;
+    /* nudge the search section so it doesn't overlap the map */
+    margin-top: 12px;
     position: relative;
-    z-index: 10;
+    z-index: 20;
 }
 
 .search-container {
@@ -1171,7 +1179,8 @@ a {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-modal);
+    /* backdrop z-index slightly lower than content */
+    z-index: var(--z-modal-backdrop);
     padding: var(--space-4);
     overflow-y: auto;
 }
@@ -1190,6 +1199,7 @@ a {
     overflow-y: auto;
     position: relative;
     animation: modalSlideUp 0.3s ease;
+    z-index: var(--z-modal);
 }
 
 @keyframes modalSlideUp {
@@ -1208,6 +1218,7 @@ a {
     top: var(--space-4);
     right: var(--space-4);
     width: 36px;
+    z-index: calc(var(--z-modal) + 1);
     height: 36px;
     background: var(--gray-100);
     border-radius: 50%;
