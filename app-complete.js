@@ -235,6 +235,7 @@ const initialKulinerData = [
 const initialBeritaData = [
     {
         id: 1,
+        hot: true,
         judul: "Festival Kuliner Purwokerto 2025",
         konten: "Festival kuliner terbesar di Purwokerto akan diselenggarakan pada tanggal 20-25 Desember 2025 di Alun-alun Purwokerto. Berbagai UMKM kuliner akan hadir memeriahkan acara ini.",
         gambar: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600",
@@ -304,6 +305,25 @@ document.addEventListener('DOMContentLoaded', () => {
     loadState();
     initApp();
 });
+
+// Helper modal functions to support multiple HTML ID variants
+function openDetailHTML(html) {
+    const modal = document.getElementById('detailModal') || document.getElementById('detailPopup');
+    const content = document.getElementById('modalContent') || document.getElementById('detailContent');
+    if (content) content.innerHTML = html;
+    if (modal) {
+        if (modal.classList) modal.classList.add('show');
+        else modal.style.display = 'block';
+    }
+}
+
+function closeDetail() {
+    const modal = document.getElementById('detailModal') || document.getElementById('detailPopup');
+    if (modal) {
+        if (modal.classList) modal.classList.remove('show');
+        else modal.style.display = 'none';
+    }
+}
 
 function loadState() {
     state.kulinerData = DB.get('kuliner', initialKulinerData);
@@ -486,7 +506,8 @@ function showRandom() {
 // KULINER LIST & DETAIL (FR-15, FR-16)
 // ============================================
 function renderKulinerList(data = state.kulinerData) {
-    const list = document.getElementById('kulinerList');
+    // support legacy id `list` or new `kulinerList`
+    const list = document.getElementById('kulinerList') || document.getElementById('list');
     if (!list) return;
     
     if (data.length === 0) {
@@ -525,11 +546,11 @@ function getHalalBadge(halal) {
 function showDetail(id) {
     const item = state.kulinerData.find(k => k.id === id);
     if (!item) return;
-    
+
     const isFav = state.favorites.has(id);
     const canReview = state.currentUser !== null;
-    
-    document.getElementById('modalContent').innerHTML = `
+
+    const detailHtml = `
         <img src="${item.foto}" alt="${item.nama}" class="detail-image">
         <div class="detail-body">
             <h2>${item.nama}</h2>
@@ -538,7 +559,6 @@ function showDetail(id) {
                 <span class="badge ${item.keliling ? 'badge-keliling' : 'badge-tetap'}">${item.keliling ? '🛵 Keliling' : '🏠 Tetap'}</span>
                 ${item.verified ? '<span class="badge badge-verified">✓ Terverifikasi</span>' : ''}
             </div>
-            
             <div class="detail-info">
                 <div class="info-row"><i class="fas fa-tag"></i> ${item.kategori}</div>
                 <div class="info-row"><i class="fas fa-map-marker-alt"></i> ${item.alamat}</div>
@@ -548,9 +568,7 @@ function showDetail(id) {
                 <div class="info-row"><i class="fas fa-route"></i> ${item.rute}</div>
                 ${item.kontak ? `<div class="info-row"><i class="fas fa-phone"></i> <a href="tel:${item.kontak}">${item.kontak}</a></div>` : ''}
             </div>
-            
             <p class="detail-desc">${item.deskripsi}</p>
-            
             <div class="detail-actions">
                 <button class="btn btn-primary" onclick="openRoute(${item.lat}, ${item.lng})">
                     <i class="fas fa-directions"></i> Rute
@@ -562,7 +580,6 @@ function showDetail(id) {
                     <i class="fas fa-heart"></i>
                 </button>
             </div>
-            
             <div class="reviews-section">
                 <h3>Ulasan (${item.reviews.length})</h3>
                 <div class="reviews-list">
@@ -577,7 +594,6 @@ function showDetail(id) {
                         </div>
                     `).join('') : '<p class="text-muted">Belum ada ulasan</p>'}
                 </div>
-                
                 ${canReview ? `
                 <div class="add-review">
                     <h4>Tulis Ulasan</h4>
@@ -595,13 +611,13 @@ function showDetail(id) {
             </div>
         </div>
     `;
-    
-    document.getElementById('detailModal').classList.add('show');
-    state.map.setView([item.lat, item.lng], 16);
+
+    openDetailHTML(detailHtml);
+    if (state.map && item.lat && item.lng) state.map.setView([item.lat, item.lng], 16);
 }
 
 function closeModal() {
-    document.getElementById('detailModal').classList.remove('show');
+    closeDetail();
 }
 
 function openWhatsApp(phone) {
@@ -612,28 +628,54 @@ function openWhatsApp(phone) {
 // AUTH (FR-07)
 // ============================================
 function showLoginModal() {
-    document.getElementById('loginModal').classList.add('show');
+    const m = document.getElementById('loginModal');
+    if (m) m.classList.add('show');
 }
 
 function closeLoginModal() {
-    document.getElementById('loginModal').classList.remove('show');
+    const m = document.getElementById('loginModal');
+    if (m) m.classList.remove('show');
 }
 
 function loginWithGoogle() {
-    // Simulate Google OAuth (in production, use Firebase Auth)
+    // Try Firebase Auth popup if available (module-based imports exposed in index.html), otherwise fallback to prompt
+    if (window.signInWithPopup && window.GoogleAuthProvider && window.firebaseAuth) {
+        try {
+            const provider = new window.GoogleAuthProvider();
+            window.signInWithPopup(window.firebaseAuth, provider).then(result => {
+                const user = result.user;
+                const name = user.displayName || (user.email || '').split('@')[0];
+                const isAdmin = user.email && user.email.includes('admin');
+                state.currentUser = { id: user.uid || Date.now(), email: user.email, name, role: isAdmin ? 'admin' : 'user' };
+                DB.set('currentUser', state.currentUser);
+                updateAuthUI();
+                closeLoginModal();
+                showToast(`Selamat datang, ${name}!`);
+            }).catch(err => {
+                console.warn('Firebase signIn error', err);
+                fallbackPromptLogin();
+            });
+            return;
+        } catch (e) {
+            console.warn('Firebase auth attempt failed', e);
+        }
+    }
+
+    // Fallback when Firebase not configured
+    fallbackPromptLogin();
+}
+
+function fallbackPromptLogin() {
     const email = prompt('Masukkan email Google Anda:');
     if (!email) return;
-    
     const name = email.split('@')[0];
     const isAdmin = email.includes('admin');
-    
     state.currentUser = {
         id: Date.now(),
         email: email,
         name: name,
         role: isAdmin ? 'admin' : 'user'
     };
-    
     DB.set('currentUser', state.currentUser);
     updateAuthUI();
     closeLoginModal();
@@ -650,17 +692,33 @@ function logout() {
 function updateAuthUI() {
     const authBtn = document.getElementById('authBtn');
     const adminNav = document.getElementById('adminNav');
-    
-    if (state.currentUser) {
-        authBtn.innerHTML = `<span>${state.currentUser.name}</span> <button onclick="logout()" class="btn-logout">Logout</button>`;
-        if (state.currentUser.role === 'admin') {
-            adminNav.style.display = 'block';
+    if (authBtn) {
+        if (state.currentUser) {
+            authBtn.innerHTML = `<span>${state.currentUser.name}</span> <button onclick="logout()" class="btn-logout">Logout</button>`;
+        } else {
+            authBtn.innerHTML = '<button onclick="showLoginModal()" class="btn btn-login">Login</button>';
         }
-    } else {
-        authBtn.innerHTML = '<button onclick="showLoginModal()" class="btn btn-login">Login</button>';
-        adminNav.style.display = 'none';
+    }
+    if (adminNav) {
+        if (state.currentUser && state.currentUser.role === 'admin') adminNav.style.display = 'block';
+        else adminNav.style.display = 'none';
     }
 }
+
+// Compatibility wrappers used by index.html (legacy names)
+function signInWithGoogle() { loginWithGoogle(); }
+function signOut() { logout(); }
+function toggleAuthModal() {
+    const m = document.getElementById('authModal');
+    if (!m) return;
+    if (m.classList) m.classList.toggle('show'); else m.style.display = (m.style.display === 'none' ? 'block' : 'none');
+}
+function closeAuthModal() { const m = document.getElementById('authModal'); if (m) m.classList.remove('show'); }
+function openAddKulinerModal() { const m = document.getElementById('addKulinerModal'); if (m) m.classList.add('show'); }
+function closeAddKulinerModal() { const m = document.getElementById('addKulinerModal'); if (m) m.classList.remove('show'); }
+function openSettings() { showToast('Pengaturan belum tersedia di demo'); }
+function showMyReviews() { showToast('Fitur Ulasan Saya belum diimplementasikan'); }
+function showMyContributions() { showToast('Fitur Kontribusi Saya belum diimplementasikan'); }
 
 // ============================================
 // FAVORITES (FR-09)
@@ -911,12 +969,32 @@ function getWeatherRecommendation() {
 // BERITA (FR-21, FR-22)
 // ============================================
 function renderBerita() {
-    const container = document.getElementById('beritaList');
+    const container = document.getElementById('newsList') || document.getElementById('beritaList');
     if (!container) return;
-    
+
     const berita = DB.get('berita', initialBeritaData);
-    
-    container.innerHTML = berita.map(b => `
+
+    // Featured / hot article first
+    const hot = berita.find(b => b.hot) || berita[0];
+    const others = berita.filter(b => b.id !== (hot && hot.id));
+
+    let html = '';
+    if (hot) {
+        html += `
+        <section class="berita-featured" onclick="showBeritaDetail(${hot.id})">
+            <img src="${hot.gambar}" alt="${hot.judul}">
+            <div class="featured-body">
+                <span class="badge badge-hot">HOT</span>
+                <h2>${hot.judul}</h2>
+                <p>${hot.konten.substring(0, 140)}...</p>
+                <small>${hot.tanggal}</small>
+            </div>
+        </section>
+        `;
+    }
+
+    html += '<div class="berita-grid">';
+    html += others.map(b => `
         <article class="berita-card" onclick="showBeritaDetail(${b.id})">
             <img src="${b.gambar}" alt="${b.judul}">
             <div class="berita-body">
@@ -927,13 +1005,15 @@ function renderBerita() {
             </div>
         </article>
     `).join('');
+    html += '</div>';
+
+    container.innerHTML = html;
 }
 
 function showBeritaDetail(id) {
     const berita = DB.get('berita', []).find(b => b.id === id);
     if (!berita) return;
-    
-    document.getElementById('modalContent').innerHTML = `
+    const html = `
         <img src="${berita.gambar}" class="detail-image">
         <div class="detail-body">
             <span class="badge">${berita.kategori}</span>
@@ -942,7 +1022,7 @@ function showBeritaDetail(id) {
             <p class="berita-content">${berita.konten}</p>
         </div>
     `;
-    document.getElementById('detailModal').classList.add('show');
+    openDetailHTML(html);
 }
 
 // ============================================

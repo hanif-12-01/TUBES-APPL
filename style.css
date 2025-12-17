@@ -444,7 +444,7 @@ a {
 .weather-details.show {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+        opacity: 1;
 }
 
 .weather-details-header {
