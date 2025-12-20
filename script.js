@@ -1848,15 +1848,27 @@ window.locateUser = sortByDistance;
 
 window.filterHalal = () => {
     const el = document.getElementById('halalFilter');
-    if (el) { el.value = 'halal'; applyFilters(); }
+    if (el) {
+        el.value = 'halal';
+        applyFilters();
+        showToast("Menampilkan Kuliner Halal ✅");
+    }
 };
 window.sortPrice = () => {
     const el = document.getElementById('sortFilter');
-    if (el) { el.value = 'harga-asc'; applyFilters(); }
+    if (el) {
+        el.value = 'harga-asc';
+        applyFilters();
+        showToast("Diurutkan: Harga Terhemat 💰");
+    }
 };
 window.sortRating = () => {
     const el = document.getElementById('sortFilter');
-    if (el) { el.value = 'rating'; applyFilters(); }
+    if (el) {
+        el.value = 'rating';
+        applyFilters();
+        showToast("Diurutkan: Rating Tertinggi ⭐");
+    }
 };
 window.quickFilter = (type) => {
     if (type === 'all') {
