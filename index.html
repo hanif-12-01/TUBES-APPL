@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 
 <body>
@@ -34,7 +34,6 @@
     <!-- Header (Main App Header) -->
     <header class="app-header glass">
         <div class="header-left">
-
             <div class="logo">
                 <h1>Lapor Mangan!</h1>
             </div>
@@ -539,7 +538,7 @@
     </div>
 
     <!-- Floating Action Button for Chatbot -->
-    <button class="chatbot-fab" onclick="toggleChat()" aria-label="Buka Chatbot">
+    <button class="chatbot-toggle" onclick="toggleChat()" aria-label="Buka Chatbot">
         <i class="fas fa-robot"></i>
     </button>
 
@@ -608,7 +607,7 @@
 
 
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 
     <!-- Service Worker Registration -->
     <script>
@@ -621,57 +620,7 @@
         }
     </script>
     <!-- EMERGENCY FAIL-SAFE SCRIPT & STYLES -->
-    <style>
-        /* Force Sidebar Text Visibility */
-        .sidebar {
-            width: 280px !important;
-            transform: translateX(0) !important;
-        }
 
-        .sidebar .nav-item span {
-            display: inline-block !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            margin-left: 10px;
-            font-size: 16px;
-            color: #333;
-        }
-
-        /* Force Chip Wrapping */
-        .filter-chips,
-        .categories-wrapper {
-            display: flex !important;
-            flex-wrap: wrap !important;
-            /* Force wrapping */
-            gap: 10px !important;
-            height: auto !important;
-            white-space: normal !important;
-        }
-
-        .chip,
-        .category-card {
-            flex: 0 0 auto !important;
-            width: auto !important;
-            margin-bottom: 5px !important;
-        }
-
-        /* Fix Header Overlap */
-        .header-right {
-            min-width: 150px;
-            justify-content: flex-end;
-        }
-
-        /* Ensure Chatbot is Clickable */
-        .chatbot-fab {
-            z-index: 2147483647 !important;
-            pointer-events: auto !important;
-            cursor: pointer !important;
-        }
-
-        #chatbot.active {
-            display: flex !important;
-        }
-    </style>
 
 
 </body>

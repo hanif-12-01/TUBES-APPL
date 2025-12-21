@@ -20,14 +20,14 @@ const DB = {
 
     init() {
         // Updated to v2 to load new CSV data
-        if (!localStorage.getItem('lm_initialized_v2')) {
+        if (!localStorage.getItem('lm_initialized_v3')) {
             DB.set('kuliner', initialKulinerData);
             DB.set('berita', initialBeritaData);
             DB.set('promo', initialPromoData);
             DB.set('users', [{ id: 1, email: 'admin@lapormangan.id', name: 'Admin', role: 'admin' }]);
             DB.set('submissions', []);
             DB.set('initialized', true);
-            localStorage.setItem('lm_initialized_v2', 'true');
+            localStorage.setItem('lm_initialized_v3', 'true');
         }
     }
 };
@@ -55,6 +55,14 @@ const initialKulinerData = [
         reviews: [
             { userId: 1, name: "Budi", rating: 5, comment: "Soto terenak di Purwokerto!", date: "2025-12-10" },
             { userId: 2, name: "Ani", rating: 4, comment: "Kuahnya gurih, porsi pas", date: "2025-12-08" }
+        ],
+        menu: [
+            { name: "Soto Daging Sapi", price: "20k" },
+            { name: "Soto Ayam Kampung", price: "18k" },
+            { name: "Soto Babat", price: "20k" },
+            { name: "Mendoan (per biji)", price: "2k" },
+            { name: "Es Teh Manis", price: "4k" },
+            { name: "Es Jeruk", price: "5k" }
         ]
     },
     {
@@ -73,7 +81,14 @@ const initialKulinerData = [
         parkir: "Tersedia",
         rute: "Jl. Tambak",
         verified: true,
-        reviews: [{ userId: 3, name: "Dimas", rating: 5, comment: "Wajib coba!", date: "2025-12-05" }]
+        reviews: [{ userId: 3, name: "Dimas", rating: 5, comment: "Wajib coba!", date: "2025-12-05" }],
+        menu: [
+            { name: "Sate Bebek (10 tusuk)", price: "35k" },
+            { name: "Sate Bebek (5 tusuk)", price: "20k" },
+            { name: "Gulai Bebek", price: "25k" },
+            { name: "Nasi Putih", price: "5k" },
+            { name: "Teh Hangat", price: "3k" }
+        ]
     },
     {
         id: 3,
@@ -127,7 +142,13 @@ const initialKulinerData = [
         parkir: "Luas",
         rute: "Jl. Dr. Angka",
         verified: true,
-        reviews: []
+        reviews: [],
+        menu: [
+            { name: "Bakso Komplit", price: "25k" },
+            { name: "Bakso Urat", price: "20k" },
+            { name: "Mie Ayam Bakso", price: "18k" },
+            { name: "Es Campur", price: "12k" }
+        ]
     },
     {
         id: 6,
@@ -218,959 +239,57 @@ const initialKulinerData = [
         rute: "Jl. Ahmad Yani",
         verified: true,
         reviews: []
-    }
-    ,
-
-    {
-        "id": 100,
-        "nama": "Soto Sokaraja Pak Min",
-        "kategori": "Soto",
-        "alamat": "Sokaraja",
-        "jam": "06:00 - 14:00",
-        "harga": "Rp15000 - Rp25000",
-        "deskripsi": "Soto Daging. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Soto+Sokaraja+Pak+Min",
-        "lat": -7.4066,
-        "lng": 109.2381,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081265793652",
-        "parkir": "Tersedia",
-        "rute": "Sokaraja",
-        "verified": true,
-        "reviews": []
     },
-    {
-        "id": 101,
-        "nama": "Mie Ayam Bakso Pak Kumis",
-        "kategori": "Bakso",
-        "alamat": "Jl. Jenderal Sudirman",
-        "jam": "08:00 - 21:00",
-        "harga": "Rp12000 - Rp20000",
-        "deskripsi": "Mie Ayam Bakso. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Mie+Ayam+Bakso+Pak+Kumis",
-        "lat": -7.4261,
-        "lng": 109.2144,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081262916327",
-        "parkir": "Tersedia",
-        "rute": "Jl. Jenderal Sudirman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 102,
-        "nama": "Warung Nasi Pecel Bu Tinuk",
-        "kategori": "Makanan Berat",
-        "alamat": "Pasar Wage",
-        "jam": "06:00 - 12:00",
-        "harga": "Rp8000 - Rp15000",
-        "deskripsi": "Pecel Sayur. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Warung+Nasi+Pecel+Bu+Tinuk",
-        "lat": -7.4061,
-        "lng": 109.2488,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081240903263",
-        "parkir": "Tersedia",
-        "rute": "Pasar Wage",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 103,
-        "nama": "Sate Ambal Pak Kasno",
-        "kategori": "Sate",
-        "alamat": "Ambal",
-        "jam": "16:00 - 22:00",
-        "harga": "Rp25000 - Rp40000",
-        "deskripsi": "Sate Kambing. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Sate+Ambal+Pak+Kasno",
-        "lat": -7.4065,
-        "lng": 109.2403,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081245337162",
-        "parkir": "Tersedia",
-        "rute": "Ambal",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 104,
-        "nama": "Mendoan Pak Dhuwur",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Area Alun-alun",
-        "jam": "15:00 - 21:00",
-        "harga": "Rp5000 - Rp10000",
-        "deskripsi": "Mendoan Tempe. Pedagang Keliling.",
-        "foto": "https://via.placeholder.com/400x200?text=Mendoan+Pak+Dhuwur",
-        "lat": -7.4091,
-        "lng": 109.2492,
-        "keliling": true,
-        "halal": "halal",
-        "kontak": "081229345037",
-        "parkir": "Tersedia",
-        "rute": "Area Alun-alun",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 105,
-        "nama": "Lotek Kupat Tahu Bu Sri",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Veteran",
-        "jam": "07:00 - 13:00",
-        "harga": "Rp10000 - Rp18000",
-        "deskripsi": "Lotek Kupat Tahu. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Lotek+Kupat+Tahu+Bu+Sri",
-        "lat": -7.4259,
-        "lng": 109.2279,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081278717194",
-        "parkir": "Tersedia",
-        "rute": "Jl. Veteran",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 106,
-        "nama": "Bakmi Jawa Pak Karno",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Ahmad Yani",
-        "jam": "10:00 - 21:00",
-        "harga": "Rp15000 - Rp25000",
-        "deskripsi": "Bakmi Jawa. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Bakmi+Jawa+Pak+Karno",
-        "lat": -7.4155,
-        "lng": 109.2462,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081249773028",
-        "parkir": "Tersedia",
-        "rute": "Jl. Ahmad Yani",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 107,
-        "nama": "Nasi Gandul Yu Tum",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Overste Isdiman",
-        "jam": "08:00 - 15:00",
-        "harga": "Rp18000 - Rp28000",
-        "deskripsi": "Nasi Gandul. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Nasi+Gandul+Yu+Tum",
-        "lat": -7.4392,
-        "lng": 109.2253,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081222912265",
-        "parkir": "Tersedia",
-        "rute": "Jl. Overste Isdiman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 108,
-        "nama": "Es Dawet Ayu Telasih",
-        "kategori": "Minuman",
-        "alamat": "Jl. Sunan Kalijaga",
-        "jam": "08:00 - 17:00",
-        "harga": "Rp8000 - Rp12000",
-        "deskripsi": "Es Dawet. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Es+Dawet+Ayu+Telasih",
-        "lat": -7.4124,
-        "lng": 109.2147,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081282545289",
-        "parkir": "Tersedia",
-        "rute": "Jl. Sunan Kalijaga",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 109,
-        "nama": "Kopi Progo",
-        "kategori": "Minuman",
-        "alamat": "Jl. Jenderal Sudirman",
-        "jam": "07:00 - 22:00",
-        "harga": "Rp12000 - Rp35000",
-        "deskripsi": "Kopi Manual Brew. Kafe Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Kopi+Progo",
-        "lat": -7.4121,
-        "lng": 109.2322,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081232718258",
-        "parkir": "Tersedia",
-        "rute": "Jl. Jenderal Sudirman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 110,
-        "nama": "Tahu Gimbal Pak Hadi",
-        "kategori": "Makanan Berat",
-        "alamat": "Alun-alun Purwokerto",
-        "jam": "16:00 - 21:00",
-        "harga": "Rp12000 - Rp20000",
-        "deskripsi": "Tahu Gimbal. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Tahu+Gimbal+Pak+Hadi",
-        "lat": -7.4375,
-        "lng": 109.222,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081221106578",
-        "parkir": "Tersedia",
-        "rute": "Alun-alun Purwokerto",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 111,
-        "nama": "Warung Nasi Ayam Bu Yanti",
-        "kategori": "Ayam",
-        "alamat": "Berkoh",
-        "jam": "10:00 - 20:00",
-        "harga": "Rp15000 - Rp25000",
-        "deskripsi": "Nasi Ayam Kampung. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Warung+Nasi+Ayam+Bu+Yanti",
-        "lat": -7.4079,
-        "lng": 109.2359,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081283510845",
-        "parkir": "Tersedia",
-        "rute": "Berkoh",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 112,
-        "nama": "Sate Blater Pak Bambang",
-        "kategori": "Sate",
-        "alamat": "Jl. Mayjend Sungkono",
-        "jam": "17:00 - 23:00",
-        "harga": "Rp20000 - Rp35000",
-        "deskripsi": "Sate Ayam. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Sate+Blater+Pak+Bambang",
-        "lat": -7.4405,
-        "lng": 109.2107,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081212723992",
-        "parkir": "Tersedia",
-        "rute": "Jl. Mayjend Sungkono",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 113,
-        "nama": "Angkringan Mbah Paijo",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Gatot Subroto",
-        "jam": "18:00 - 02:00",
-        "harga": "Rp5000 - Rp15000",
-        "deskripsi": "Nasi Kucing. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Angkringan+Mbah+Paijo",
-        "lat": -7.4324,
-        "lng": 109.2181,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081213289792",
-        "parkir": "Tersedia",
-        "rute": "Jl. Gatot Subroto",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 114,
-        "nama": "Wedang Ronde Pak Tirto",
-        "kategori": "Minuman",
-        "alamat": "Grendeng",
-        "jam": "18:00 - 23:00",
-        "harga": "Rp8000 - Rp15000",
-        "deskripsi": "Wedang Ronde. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Wedang+Ronde+Pak+Tirto",
-        "lat": -7.4172,
-        "lng": 109.2404,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081250386181",
-        "parkir": "Tersedia",
-        "rute": "Grendeng",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 115,
-        "nama": "Getuk Goreng Bu Siti",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Pasar Manis",
-        "jam": "08:00 - 17:00",
-        "harga": "Rp5000 - Rp10000",
-        "deskripsi": "Getuk Goreng. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Getuk+Goreng+Bu+Siti",
-        "lat": -7.4309,
-        "lng": 109.2112,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081240623738",
-        "parkir": "Tersedia",
-        "rute": "Pasar Manis",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 116,
-        "nama": "Bubur Ayam Barito",
-        "kategori": "Ayam",
-        "alamat": "Jl. Barito",
-        "jam": "06:00 - 11:00",
-        "harga": "Rp10000 - Rp18000",
-        "deskripsi": "Bubur Ayam. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Bubur+Ayam+Barito",
-        "lat": -7.4301,
-        "lng": 109.2106,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081295053826",
-        "parkir": "Tersedia",
-        "rute": "Jl. Barito",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 117,
-        "nama": "Nasi Uduk Bu Retno",
-        "kategori": "Makanan Berat",
-        "alamat": "Purwokerto Lor",
-        "jam": "06:00 - 12:00",
-        "harga": "Rp12000 - Rp20000",
-        "deskripsi": "Nasi Uduk. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Nasi+Uduk+Bu+Retno",
-        "lat": -7.4157,
-        "lng": 109.2352,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081224795531",
-        "parkir": "Tersedia",
-        "rute": "Purwokerto Lor",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 118,
-        "nama": "Bakso Malang Cak Eko",
-        "kategori": "Bakso",
-        "alamat": "Jl. HR Bunyamin",
-        "jam": "10:00 - 21:00",
-        "harga": "Rp15000 - Rp30000",
-        "deskripsi": "Bakso Malang. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Bakso+Malang+Cak+Eko",
-        "lat": -7.4435,
-        "lng": 109.2165,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081297157357",
-        "parkir": "Tersedia",
-        "rute": "Jl. HR Bunyamin",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 119,
-        "nama": "Es Cao Purwokerto",
-        "kategori": "Minuman",
-        "alamat": "Purwokerto Kidul",
-        "jam": "09:00 - 17:00",
-        "harga": "Rp10000 - Rp20000",
-        "deskripsi": "Es Cao. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Es+Cao+Purwokerto",
-        "lat": -7.4313,
-        "lng": 109.2139,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081269763970",
-        "parkir": "Tersedia",
-        "rute": "Purwokerto Kidul",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 120,
-        "nama": "Ayam Geprek Bensu",
-        "kategori": "Ayam",
-        "alamat": "Jl. Yos Sudarso",
-        "jam": "10:00 - 22:00",
-        "harga": "Rp18000 - Rp35000",
-        "deskripsi": "Ayam Geprek. Resto Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Ayam+Geprek+Bensu",
-        "lat": -7.4378,
-        "lng": 109.2244,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081295105726",
-        "parkir": "Tersedia",
-        "rute": "Jl. Yos Sudarso",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 121,
-        "nama": "Soto Ayam Lamongan",
-        "kategori": "Soto",
-        "alamat": "Jl. Gerilya",
-        "jam": "07:00 - 15:00",
-        "harga": "Rp12000 - Rp22000",
-        "deskripsi": "Soto Ayam. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Soto+Ayam+Lamongan",
-        "lat": -7.43,
-        "lng": 109.2385,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081272432104",
-        "parkir": "Tersedia",
-        "rute": "Jl. Gerilya",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 122,
-        "nama": "Pecel Lele Lela",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Overste Isdiman",
-        "jam": "15:00 - 23:00",
-        "harga": "Rp15000 - Rp28000",
-        "deskripsi": "Pecel Lele. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Pecel+Lele+Lela",
-        "lat": -7.4318,
-        "lng": 109.2408,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081268929153",
-        "parkir": "Tersedia",
-        "rute": "Jl. Overste Isdiman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 123,
-        "nama": "Es Kelapa Muda Pak Naryo",
-        "kategori": "Minuman",
-        "alamat": "Pasar Wage",
-        "jam": "08:00 - 16:00",
-        "harga": "Rp8000 - Rp15000",
-        "deskripsi": "Es Kelapa Muda. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Es+Kelapa+Muda+Pak+Naryo",
-        "lat": -7.415,
-        "lng": 109.2457,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081278794336",
-        "parkir": "Tersedia",
-        "rute": "Pasar Wage",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 124,
-        "nama": "Nasi Goreng Pak Gemblung",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Jenderal Sudirman",
-        "jam": "18:00 - 02:00",
-        "harga": "Rp12000 - Rp20000",
-        "deskripsi": "Nasi Goreng. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Nasi+Goreng+Pak+Gemblung",
-        "lat": -7.4365,
-        "lng": 109.237,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081275733368",
-        "parkir": "Tersedia",
-        "rute": "Jl. Jenderal Sudirman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 125,
-        "nama": "Warung Tegal Bu Slamet",
-        "kategori": "Makanan Berat",
-        "alamat": "Purwokerto Kulon",
-        "jam": "06:00 - 14:00",
-        "harga": "Rp10000 - Rp25000",
-        "deskripsi": "Aneka Lauk Warteg. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Warung+Tegal+Bu+Slamet",
-        "lat": -7.4049,
-        "lng": 109.2166,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081218707567",
-        "parkir": "Tersedia",
-        "rute": "Purwokerto Kulon",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 126,
-        "nama": "Mie Koclok Cirebon",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Gerilya",
-        "jam": "08:00 - 16:00",
-        "harga": "Rp15000 - Rp25000",
-        "deskripsi": "Mie Koclok. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Mie+Koclok+Cirebon",
-        "lat": -7.4401,
-        "lng": 109.2481,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081283077803",
-        "parkir": "Tersedia",
-        "rute": "Jl. Gerilya",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 127,
-        "nama": "Pisang Goreng Ponorogo",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Terminal Purwokerto",
-        "jam": "14:00 - 21:00",
-        "harga": "Rp5000 - Rp12000",
-        "deskripsi": "Pisang Goreng. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Pisang+Goreng+Ponorogo",
-        "lat": -7.4389,
-        "lng": 109.2305,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081276498608",
-        "parkir": "Tersedia",
-        "rute": "Terminal Purwokerto",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 128,
-        "nama": "Kopi Tuku Purwokerto",
-        "kategori": "Minuman",
-        "alamat": "Jl. Ahmad Yani",
-        "jam": "08:00 - 21:00",
-        "harga": "Rp15000 - Rp40000",
-        "deskripsi": "Kopi Susu Kekinian. Kafe Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Kopi+Tuku+Purwokerto",
-        "lat": -7.4302,
-        "lng": 109.2167,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081239228973",
-        "parkir": "Tersedia",
-        "rute": "Jl. Ahmad Yani",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 129,
-        "nama": "Geprek Bensu",
-        "kategori": "Ayam",
-        "alamat": "Jl. HR Bunyamin",
-        "jam": "10:00 - 22:00",
-        "harga": "Rp18000 - Rp35000",
-        "deskripsi": "Ayam Geprek. Resto Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Geprek+Bensu",
-        "lat": -7.4061,
-        "lng": 109.2412,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081284678145",
-        "parkir": "Tersedia",
-        "rute": "Jl. HR Bunyamin",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 130,
-        "nama": "Rawon Nguling Bu Pur",
-        "kategori": "Makanan Berat",
-        "alamat": "Bancarkembar",
-        "jam": "07:00 - 14:00",
-        "harga": "Rp18000 - Rp30000",
-        "deskripsi": "Rawon Daging. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Rawon+Nguling+Bu+Pur",
-        "lat": -7.4218,
-        "lng": 109.2444,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081287605127",
-        "parkir": "Tersedia",
-        "rute": "Bancarkembar",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 131,
-        "nama": "Martabak Orins",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Jl. Mayjend Sungkono",
-        "jam": "16:00 - 23:00",
-        "harga": "Rp20000 - Rp50000",
-        "deskripsi": "Martabak Manis Telur. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Martabak+Orins",
-        "lat": -7.4113,
-        "lng": 109.225,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081285104285",
-        "parkir": "Tersedia",
-        "rute": "Jl. Mayjend Sungkono",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 132,
-        "nama": "Cendol Dawet Bu Dermi",
-        "kategori": "Makanan Berat",
-        "alamat": "Pasar Pon",
-        "jam": "09:00 - 17:00",
-        "harga": "Rp8000 - Rp12000",
-        "deskripsi": "Cendol Dawet. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Cendol+Dawet+Bu+Dermi",
-        "lat": -7.4321,
-        "lng": 109.2292,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081292309103",
-        "parkir": "Tersedia",
-        "rute": "Pasar Pon",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 133,
-        "nama": "Gado-gado Bu Tini",
-        "kategori": "Makanan Berat",
-        "alamat": "Purwokerto Lor",
-        "jam": "07:00 - 13:00",
-        "harga": "Rp12000 - Rp20000",
-        "deskripsi": "Gado-gado. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Gado-gado+Bu+Tini",
-        "lat": -7.4095,
-        "lng": 109.2351,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081213788050",
-        "parkir": "Tersedia",
-        "rute": "Purwokerto Lor",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 134,
-        "nama": "Bakwan Malang Cak Man",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Veteran",
-        "jam": "15:00 - 22:00",
-        "harga": "Rp15000 - Rp25000",
-        "deskripsi": "Bakwan Malang. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Bakwan+Malang+Cak+Man",
-        "lat": -7.4098,
-        "lng": 109.2499,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081286293378",
-        "parkir": "Tersedia",
-        "rute": "Jl. Veteran",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 135,
-        "nama": "Juice Buah Segar Pak Wito",
-        "kategori": "Minuman",
-        "alamat": "Jl. Sunan Kalijaga",
-        "jam": "08:00 - 20:00",
-        "harga": "Rp10000 - Rp25000",
-        "deskripsi": "Jus Buah. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Juice+Buah+Segar+Pak+Wito",
-        "lat": -7.4255,
-        "lng": 109.2319,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081211863522",
-        "parkir": "Tersedia",
-        "rute": "Jl. Sunan Kalijaga",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 136,
-        "nama": "Nasi Liwet Bu Wongso",
-        "kategori": "Makanan Berat",
-        "alamat": "Berkoh",
-        "jam": "17:00 - 23:00",
-        "harga": "Rp18000 - Rp30000",
-        "deskripsi": "Nasi Liwet. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Nasi+Liwet+Bu+Wongso",
-        "lat": -7.4068,
-        "lng": 109.2338,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081271101817",
-        "parkir": "Tersedia",
-        "rute": "Berkoh",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 137,
-        "nama": "Ketoprak Jakarta",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Gatot Subroto",
-        "jam": "08:00 - 15:00",
-        "harga": "Rp10000 - Rp18000",
-        "deskripsi": "Ketoprak. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Ketoprak+Jakarta",
-        "lat": -7.4429,
-        "lng": 109.2307,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081231169317",
-        "parkir": "Tersedia",
-        "rute": "Jl. Gatot Subroto",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 138,
-        "nama": "Sate Maranggi Purwokerto",
-        "kategori": "Sate",
-        "alamat": "Jl. Yos Sudarso",
-        "jam": "16:00 - 22:00",
-        "harga": "Rp25000 - Rp45000",
-        "deskripsi": "Sate Maranggi. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Sate+Maranggi+Purwokerto",
-        "lat": -7.413,
-        "lng": 109.2465,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081232740955",
-        "parkir": "Tersedia",
-        "rute": "Jl. Yos Sudarso",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 139,
-        "nama": "Warung Kopi Klotok",
-        "kategori": "Minuman",
-        "alamat": "Sokaraja",
-        "jam": "06:00 - 12:00",
-        "harga": "Rp5000 - Rp15000",
-        "deskripsi": "Kopi Klotok. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Warung+Kopi+Klotok",
-        "lat": -7.4155,
-        "lng": 109.2243,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081248249053",
-        "parkir": "Tersedia",
-        "rute": "Sokaraja",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 140,
-        "nama": "Lumpia Semarang Bu Mul",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Jl. Ahmad Yani",
-        "jam": "09:00 - 20:00",
-        "harga": "Rp15000 - Rp30000",
-        "deskripsi": "Lumpia Basah. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Lumpia+Semarang+Bu+Mul",
-        "lat": -7.4405,
-        "lng": 109.2438,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081216786793",
-        "parkir": "Tersedia",
-        "rute": "Jl. Ahmad Yani",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 141,
-        "nama": "Pempek Palembang Asli",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. HR Bunyamin",
-        "jam": "10:00 - 21:00",
-        "harga": "Rp12000 - Rp35000",
-        "deskripsi": "Pempek Kapal Selam. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Pempek+Palembang+Asli",
-        "lat": -7.4214,
-        "lng": 109.2373,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081283783415",
-        "parkir": "Tersedia",
-        "rute": "Jl. HR Bunyamin",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 142,
-        "nama": "Klepon Bu Niken",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Pasar Manis",
-        "jam": "07:00 - 16:00",
-        "harga": "Rp5000 - Rp10000",
-        "deskripsi": "Klepon Kue Basah. Pedagang Keliling.",
-        "foto": "https://via.placeholder.com/400x200?text=Klepon+Bu+Niken",
-        "lat": -7.4378,
-        "lng": 109.2201,
-        "keliling": true,
-        "halal": "halal",
-        "kontak": "081231808934",
-        "parkir": "Tersedia",
-        "rute": "Pasar Manis",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 143,
-        "nama": "Es Teler 77",
-        "kategori": "Minuman",
-        "alamat": "Rita Mall",
-        "jam": "10:00 - 22:00",
-        "harga": "Rp15000 - Rp35000",
-        "deskripsi": "Es Teler. Resto Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Es+Teler+77",
-        "lat": -7.4369,
-        "lng": 109.2274,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081288020980",
-        "parkir": "Tersedia",
-        "rute": "Rita Mall",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 144,
-        "nama": "Nasi Bakar Cianjur",
-        "kategori": "Ayam",
-        "alamat": "Jl. Gerilya",
-        "jam": "11:00 - 22:00",
-        "harga": "Rp18000 - Rp35000",
-        "deskripsi": "Nasi Bakar Ayam. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Nasi+Bakar+Cianjur",
-        "lat": -7.4328,
-        "lng": 109.2263,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081271709394",
-        "parkir": "Tersedia",
-        "rute": "Jl. Gerilya",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 145,
-        "nama": "Depot Es Durian",
-        "kategori": "Minuman",
-        "alamat": "Purwokerto Kidul",
-        "jam": "09:00 - 21:00",
-        "harga": "Rp15000 - Rp40000",
-        "deskripsi": "Es Durian. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Depot+Es+Durian",
-        "lat": -7.4232,
-        "lng": 109.2132,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081266287150",
-        "parkir": "Tersedia",
-        "rute": "Purwokerto Kidul",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 146,
-        "nama": "Ayam Goreng Mbok Berek",
-        "kategori": "Ayam",
-        "alamat": "Jl. Overste Isdiman",
-        "jam": "10:00 - 20:00",
-        "harga": "Rp20000 - Rp35000",
-        "deskripsi": "Ayam Goreng Kampung. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Ayam+Goreng+Mbok+Berek",
-        "lat": -7.443,
-        "lng": 109.2178,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081253236137",
-        "parkir": "Tersedia",
-        "rute": "Jl. Overste Isdiman",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 147,
-        "nama": "Tengkleng Kambing Solo",
-        "kategori": "Makanan Berat",
-        "alamat": "Jl. Mayjend Sungkono",
-        "jam": "08:00 - 16:00",
-        "harga": "Rp25000 - Rp45000",
-        "deskripsi": "Tengkleng Kambing. Warung Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Tengkleng+Kambing+Solo",
-        "lat": -7.4295,
-        "lng": 109.2132,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081298960203",
-        "parkir": "Tersedia",
-        "rute": "Jl. Mayjend Sungkono",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 148,
-        "nama": "Serabi Notosuman",
-        "kategori": "Jajanan Tradisional",
-        "alamat": "Alun-alun Purwokerto",
-        "jam": "14:00 - 21:00",
-        "harga": "Rp8000 - Rp15000",
-        "deskripsi": "Serabi Solo. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Serabi+Notosuman",
-        "lat": -7.4282,
-        "lng": 109.2432,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081250052126",
-        "parkir": "Tersedia",
-        "rute": "Alun-alun Purwokerto",
-        "verified": true,
-        "reviews": []
-    },
-    {
-        "id": 149,
-        "nama": "Susu Jahe Pak Kumis",
-        "kategori": "Minuman",
-        "alamat": "Terminal Purwokerto",
-        "jam": "17:00 - 23:00",
-        "harga": "Rp7000 - Rp12000",
-        "deskripsi": "Susu Jahe Hangat. Gerobak Tetap.",
-        "foto": "https://via.placeholder.com/400x200?text=Susu+Jahe+Pak+Kumis",
-        "lat": -7.4133,
-        "lng": 109.2361,
-        "keliling": false,
-        "halal": "halal",
-        "kontak": "081291626330",
-        "parkir": "Tersedia",
-        "rute": "Terminal Purwokerto",
-        "verified": true,
-        "reviews": []
-    }
+    { "id": 200, "nama": "Soto Sokaraja Pak Min", "kategori": "Makanan Berat", "alamat": "Sokaraja", "jam": "06:00 - 14:00", "harga": "Rp15000 - Rp25000", "deskripsi": "Soto Daging. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Soto+Sokaraja+Pak+Min", "lat": -7.40245, "lng": 109.23824, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Sokaraja", "verified": true, "reviews": [] },
+    { "id": 201, "nama": "Mie Ayam Bakso Pak Kumis", "kategori": "Makanan Berat", "alamat": "Jl. Jenderal Sudirman", "jam": "08:00 - 21:00", "harga": "Rp12000 - Rp20000", "deskripsi": "Mie Ayam Bakso. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Mie+Ayam+Bakso+Pak+Kumis", "lat": -7.44096, "lng": 109.24148, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Jenderal Sudirman", "verified": true, "reviews": [] },
+    { "id": 202, "nama": "Warung Nasi Pecel Bu Tinuk", "kategori": "Makanan Berat", "alamat": "Pasar Wage", "jam": "06:00 - 12:00", "harga": "Rp8000 - Rp15000", "deskripsi": "Pecel Sayur. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Warung+Nasi+Pecel+Bu+Tinuk", "lat": -7.41849, "lng": 109.25384, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Pasar Wage", "verified": true, "reviews": [] },
+    { "id": 203, "nama": "Sate Ambal Pak Kasno", "kategori": "Makanan Berat", "alamat": "Ambal", "jam": "16:00 - 22:00", "harga": "Rp25000 - Rp40000", "deskripsi": "Sate Kambing. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Sate+Ambal+Pak+Kasno", "lat": -7.43262, "lng": 109.22971, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Ambal", "verified": true, "reviews": [] },
+    { "id": 204, "nama": "Mendoan Pak Dhuwur", "kategori": "Makanan Berat", "alamat": "Area Alun-alun", "jam": "15:00 - 21:00", "harga": "Rp5000 - Rp10000", "deskripsi": "Mendoan Tempe. Pedagang Keliling.", "foto": "https://via.placeholder.com/400x200?text=Mendoan+Pak+Dhuwur", "lat": -7.42569, "lng": 109.23408, "keliling": true, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Area Alun-alun", "verified": true, "reviews": [] },
+    { "id": 205, "nama": "Lotek Kupat Tahu Bu Sri", "kategori": "Makanan Berat", "alamat": "Jl. Veteran", "jam": "07:00 - 13:00", "harga": "Rp10000 - Rp18000", "deskripsi": "Lotek Kupat Tahu. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Lotek+Kupat+Tahu+Bu+Sri", "lat": -7.42469, "lng": 109.26197, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Veteran", "verified": true, "reviews": [] },
+    { "id": 206, "nama": "Bakmi Jawa Pak Karno", "kategori": "Makanan Berat", "alamat": "Jl. Ahmad Yani", "jam": "10:00 - 21:00", "harga": "Rp15000 - Rp25000", "deskripsi": "Bakmi Jawa. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Bakmi+Jawa+Pak+Karno", "lat": -7.41655, "lng": 109.22911, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Ahmad Yani", "verified": true, "reviews": [] },
+    { "id": 207, "nama": "Nasi Gandul Yu Tum", "kategori": "Makanan Berat", "alamat": "Jl. Overste Isdiman", "jam": "08:00 - 15:00", "harga": "Rp18000 - Rp28000", "deskripsi": "Nasi Gandul. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Nasi+Gandul+Yu+Tum", "lat": -7.42992, "lng": 109.25763, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Overste Isdiman", "verified": true, "reviews": [] },
+    { "id": 208, "nama": "Es Dawet Ayu Telasih", "kategori": "Minuman", "alamat": "Jl. Sunan Kalijaga", "jam": "08:00 - 17:00", "harga": "Rp8000 - Rp12000", "deskripsi": "Es Dawet. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Es+Dawet+Ayu+Telasih", "lat": -7.41737, "lng": 109.24994, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Sunan Kalijaga", "verified": true, "reviews": [] },
+    { "id": 209, "nama": "Kopi Progo", "kategori": "Minuman", "alamat": "Jl. Jenderal Sudirman", "jam": "07:00 - 22:00", "harga": "Rp12000 - Rp35000", "deskripsi": "Kopi Manual Brew. Kafe Tetap.", "foto": "https://via.placeholder.com/400x200?text=Kopi+Progo", "lat": -7.43216, "lng": 109.23963, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Jenderal Sudirman", "verified": true, "reviews": [] },
+    { "id": 210, "nama": "Tahu Gimbal Pak Hadi", "kategori": "Makanan Berat", "alamat": "Alun-alun Purwokerto", "jam": "16:00 - 21:00", "harga": "Rp12000 - Rp20000", "deskripsi": "Tahu Gimbal. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Tahu+Gimbal+Pak+Hadi", "lat": -7.41403, "lng": 109.22742, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Alun-alun Purwokerto", "verified": true, "reviews": [] },
+    { "id": 211, "nama": "Warung Nasi Ayam Bu Yanti", "kategori": "Makanan Berat", "alamat": "Berkoh", "jam": "10:00 - 20:00", "harga": "Rp15000 - Rp25000", "deskripsi": "Nasi Ayam Kampung. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Warung+Nasi+Ayam+Bu+Yanti", "lat": -7.40769, "lng": 109.22363, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Berkoh", "verified": true, "reviews": [] },
+    { "id": 212, "nama": "Sate Blater Pak Bambang", "kategori": "Makanan Berat", "alamat": "Jl. Mayjend Sungkono", "jam": "17:00 - 23:00", "harga": "Rp20000 - Rp35000", "deskripsi": "Sate Ayam. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Sate+Blater+Pak+Bambang", "lat": -7.43205, "lng": 109.25495, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Mayjend Sungkono", "verified": true, "reviews": [] },
+    { "id": 213, "nama": "Angkringan Mbah Paijo", "kategori": "Makanan Berat", "alamat": "Jl. Gatot Subroto", "jam": "18:00 - 02:00", "harga": "Rp5000 - Rp15000", "deskripsi": "Nasi Kucing. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Angkringan+Mbah+Paijo", "lat": -7.40877, "lng": 109.23017, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Gatot Subroto", "verified": true, "reviews": [] },
+    { "id": 214, "nama": "Wedang Ronde Pak Tirto", "kategori": "Minuman", "alamat": "Grendeng", "jam": "18:00 - 23:00", "harga": "Rp8000 - Rp15000", "deskripsi": "Wedang Ronde. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Wedang+Ronde+Pak+Tirto", "lat": -7.43535, "lng": 109.25574, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Grendeng", "verified": true, "reviews": [] },
+    { "id": 215, "nama": "Getuk Goreng Bu Siti", "kategori": "Makanan Berat", "alamat": "Pasar Manis", "jam": "08:00 - 17:00", "harga": "Rp5000 - Rp10000", "deskripsi": "Getuk Goreng. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Getuk+Goreng+Bu+Siti", "lat": -7.42261, "lng": 109.24116, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Pasar Manis", "verified": true, "reviews": [] },
+    { "id": 216, "nama": "Bubur Ayam Barito", "kategori": "Makanan Berat", "alamat": "Jl. Barito", "jam": "06:00 - 11:00", "harga": "Rp10000 - Rp18000", "deskripsi": "Bubur Ayam. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Bubur+Ayam+Barito", "lat": -7.42141, "lng": 109.26026, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Barito", "verified": true, "reviews": [] },
+    { "id": 217, "nama": "Nasi Uduk Bu Retno", "kategori": "Makanan Berat", "alamat": "Purwokerto Lor", "jam": "06:00 - 12:00", "harga": "Rp12000 - Rp20000", "deskripsi": "Nasi Uduk. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Nasi+Uduk+Bu+Retno", "lat": -7.41907, "lng": 109.25102, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Purwokerto Lor", "verified": true, "reviews": [] },
+    { "id": 218, "nama": "Bakso Malang Cak Eko", "kategori": "Makanan Berat", "alamat": "Jl. HR Bunyamin", "jam": "10:00 - 21:00", "harga": "Rp15000 - Rp30000", "deskripsi": "Bakso Malang. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Bakso+Malang+Cak+Eko", "lat": -7.41917, "lng": 109.23763, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. HR Bunyamin", "verified": true, "reviews": [] },
+    { "id": 219, "nama": "Es Cao Purwokerto", "kategori": "Minuman", "alamat": "Purwokerto Kidul", "jam": "09:00 - 17:00", "harga": "Rp10000 - Rp20000", "deskripsi": "Es Cao. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Es+Cao+Purwokerto", "lat": -7.43533, "lng": 109.23085, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Purwokerto Kidul", "verified": true, "reviews": [] },
+    { "id": 220, "nama": "Ayam Geprek Bensu", "kategori": "Makanan Berat", "alamat": "Jl. Yos Sudarso", "jam": "10:00 - 22:00", "harga": "Rp18000 - Rp35000", "deskripsi": "Ayam Geprek. Resto Tetap.", "foto": "https://via.placeholder.com/400x200?text=Ayam+Geprek+Bensu", "lat": -7.42163, "lng": 109.2513, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Yos Sudarso", "verified": true, "reviews": [] },
+    { "id": 221, "nama": "Soto Ayam Lamongan", "kategori": "Makanan Berat", "alamat": "Jl. Gerilya", "jam": "07:00 - 15:00", "harga": "Rp12000 - Rp22000", "deskripsi": "Soto Ayam. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Soto+Ayam+Lamongan", "lat": -7.43189, "lng": 109.24806, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Gerilya", "verified": true, "reviews": [] },
+    { "id": 222, "nama": "Pecel Lele Lela", "kategori": "Makanan Berat", "alamat": "Jl. Overste Isdiman", "jam": "15:00 - 23:00", "harga": "Rp15000 - Rp28000", "deskripsi": "Pecel Lele. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Pecel+Lele+Lela", "lat": -7.44069, "lng": 109.24463, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Overste Isdiman", "verified": true, "reviews": [] },
+    { "id": 223, "nama": "Es Kelapa Muda Pak Naryo", "kategori": "Minuman", "alamat": "Pasar Wage", "jam": "08:00 - 16:00", "harga": "Rp8000 - Rp15000", "deskripsi": "Es Kelapa Muda. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Es+Kelapa+Muda+Pak+Naryo", "lat": -7.42844, "lng": 109.24531, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Pasar Wage", "verified": true, "reviews": [] },
+    { "id": 224, "nama": "Nasi Goreng Pak Gemblung", "kategori": "Makanan Berat", "alamat": "Jl. Jenderal Sudirman", "jam": "18:00 - 02:00", "harga": "Rp12000 - Rp20000", "deskripsi": "Nasi Goreng. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Nasi+Goreng+Pak+Gemblung", "lat": -7.43278, "lng": 109.24738, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Jenderal Sudirman", "verified": true, "reviews": [] },
+    { "id": 225, "nama": "Warung Tegal Bu Slamet", "kategori": "Makanan Berat", "alamat": "Purwokerto Kulon", "jam": "06:00 - 14:00", "harga": "Rp10000 - Rp25000", "deskripsi": "Aneka Lauk Warteg. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Warung+Tegal+Bu+Slamet", "lat": -7.42951, "lng": 109.22904, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Purwokerto Kulon", "verified": true, "reviews": [] },
+    { "id": 226, "nama": "Mie Koclok Cirebon", "kategori": "Makanan Berat", "alamat": "Jl. Gerilya", "jam": "08:00 - 16:00", "harga": "Rp15000 - Rp25000", "deskripsi": "Mie Koclok. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Mie+Koclok+Cirebon", "lat": -7.4246, "lng": 109.24268, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Gerilya", "verified": true, "reviews": [] },
+    { "id": 227, "nama": "Pisang Goreng Ponorogo", "kategori": "Makanan Berat", "alamat": "Terminal Purwokerto", "jam": "14:00 - 21:00", "harga": "Rp5000 - Rp12000", "deskripsi": "Pisang Goreng. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Pisang+Goreng+Ponorogo", "lat": -7.41237, "lng": 109.2226, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Terminal Purwokerto", "verified": true, "reviews": [] },
+    { "id": 228, "nama": "Kopi Tuku Purwokerto", "kategori": "Minuman", "alamat": "Jl. Ahmad Yani", "jam": "08:00 - 21:00", "harga": "Rp15000 - Rp40000", "deskripsi": "Kopi Susu Kekinian. Kafe Tetap.", "foto": "https://via.placeholder.com/400x200?text=Kopi+Tuku+Purwokerto", "lat": -7.40367, "lng": 109.24452, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Ahmad Yani", "verified": true, "reviews": [] },
+    { "id": 229, "nama": "Geprek Bensu", "kategori": "Makanan Berat", "alamat": "Jl. HR Bunyamin", "jam": "10:00 - 22:00", "harga": "Rp18000 - Rp35000", "deskripsi": "Ayam Geprek. Resto Tetap.", "foto": "https://via.placeholder.com/400x200?text=Geprek+Bensu", "lat": -7.42735, "lng": 109.23298, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. HR Bunyamin", "verified": true, "reviews": [] },
+    { "id": 230, "nama": "Rawon Nguling Bu Pur", "kategori": "Makanan Berat", "alamat": "Bancarkembar", "jam": "07:00 - 14:00", "harga": "Rp18000 - Rp30000", "deskripsi": "Rawon Daging. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Rawon+Nguling+Bu+Pur", "lat": -7.40946, "lng": 109.24082, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Bancarkembar", "verified": true, "reviews": [] },
+    { "id": 231, "nama": "Martabak Orins", "kategori": "Makanan Berat", "alamat": "Jl. Mayjend Sungkono", "jam": "16:00 - 23:00", "harga": "Rp20000 - Rp50000", "deskripsi": "Martabak Manis Telur. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Martabak+Orins", "lat": -7.4195, "lng": 109.23562, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Mayjend Sungkono", "verified": true, "reviews": [] },
+    { "id": 232, "nama": "Cendol Dawet Bu Dermi", "kategori": "Minuman", "alamat": "Pasar Pon", "jam": "09:00 - 17:00", "harga": "Rp8000 - Rp12000", "deskripsi": "Cendol Dawet. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Cendol+Dawet+Bu+Dermi", "lat": -7.4263, "lng": 109.25588, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Pasar Pon", "verified": true, "reviews": [] },
+    { "id": 233, "nama": "Gado-gado Bu Tini", "kategori": "Makanan Berat", "alamat": "Purwokerto Lor", "jam": "07:00 - 13:00", "harga": "Rp12000 - Rp20000", "deskripsi": "Gado-gado. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Gado-gado+Bu+Tini", "lat": -7.41396, "lng": 109.25702, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Purwokerto Lor", "verified": true, "reviews": [] },
+    { "id": 234, "nama": "Bakwan Malang Cak Man", "kategori": "Makanan Berat", "alamat": "Jl. Veteran", "jam": "15:00 - 22:00", "harga": "Rp15000 - Rp25000", "deskripsi": "Bakwan Malang. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Bakwan+Malang+Cak+Man", "lat": -7.42813, "lng": 109.24995, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Veteran", "verified": true, "reviews": [] },
+    { "id": 235, "nama": "Juice Buah Segar Pak Wito", "kategori": "Minuman", "alamat": "Jl. Sunan Kalijaga", "jam": "08:00 - 20:00", "harga": "Rp10000 - Rp25000", "deskripsi": "Jus Buah. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Juice+Buah+Segar+Pak+Wito", "lat": -7.4282, "lng": 109.24238, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Sunan Kalijaga", "verified": true, "reviews": [] },
+    { "id": 236, "nama": "Nasi Liwet Bu Wongso", "kategori": "Makanan Berat", "alamat": "Berkoh", "jam": "17:00 - 23:00", "harga": "Rp18000 - Rp30000", "deskripsi": "Nasi Liwet. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Nasi+Liwet+Bu+Wongso", "lat": -7.44077, "lng": 109.24926, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Berkoh", "verified": true, "reviews": [] },
+    { "id": 237, "nama": "Ketoprak Jakarta", "kategori": "Makanan Berat", "alamat": "Jl. Gatot Subroto", "jam": "08:00 - 15:00", "harga": "Rp10000 - Rp18000", "deskripsi": "Ketoprak. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Ketoprak+Jakarta", "lat": -7.40527, "lng": 109.23869, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Gatot Subroto", "verified": true, "reviews": [] },
+    { "id": 238, "nama": "Sate Maranggi Purwokerto", "kategori": "Makanan Berat", "alamat": "Jl. Yos Sudarso", "jam": "16:00 - 22:00", "harga": "Rp25000 - Rp45000", "deskripsi": "Sate Maranggi. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Sate+Maranggi+Purwokerto", "lat": -7.4352, "lng": 109.2435, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Yos Sudarso", "verified": true, "reviews": [] },
+    { "id": 239, "nama": "Warung Kopi Klotok", "kategori": "Minuman", "alamat": "Sokaraja", "jam": "06:00 - 12:00", "harga": "Rp5000 - Rp15000", "deskripsi": "Kopi Klotok. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Warung+Kopi+Klotok", "lat": -7.41848, "lng": 109.23775, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Sokaraja", "verified": true, "reviews": [] },
+    { "id": 240, "nama": "Lumpia Semarang Bu Mul", "kategori": "Makanan Berat", "alamat": "Jl. Ahmad Yani", "jam": "09:00 - 20:00", "harga": "Rp15000 - Rp30000", "deskripsi": "Lumpia Basah. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Lumpia+Semarang+Bu+Mul", "lat": -7.40683, "lng": 109.24045, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Ahmad Yani", "verified": true, "reviews": [] },
+    { "id": 241, "nama": "Pempek Palembang Asli", "kategori": "Makanan Berat", "alamat": "Jl. HR Bunyamin", "jam": "10:00 - 21:00", "harga": "Rp12000 - Rp35000", "deskripsi": "Pempek Kapal Selam. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Pempek+Palembang+Asli", "lat": -7.40302, "lng": 109.23961, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. HR Bunyamin", "verified": true, "reviews": [] },
+    { "id": 242, "nama": "Klepon Bu Niken", "kategori": "Makanan Berat", "alamat": "Pasar Manis", "jam": "07:00 - 16:00", "harga": "Rp5000 - Rp10000", "deskripsi": "Klepon Kue Basah. Pedagang Keliling.", "foto": "https://via.placeholder.com/400x200?text=Klepon+Bu+Niken", "lat": -7.43737, "lng": 109.22743, "keliling": true, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Pasar Manis", "verified": true, "reviews": [] },
+    { "id": 243, "nama": "Es Teler 77", "kategori": "Minuman", "alamat": "Rita Mall", "jam": "10:00 - 22:00", "harga": "Rp15000 - Rp35000", "deskripsi": "Es Teler. Resto Tetap.", "foto": "https://via.placeholder.com/400x200?text=Es+Teler+77", "lat": -7.43606, "lng": 109.23922, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Rita Mall", "verified": true, "reviews": [] },
+    { "id": 244, "nama": "Nasi Bakar Cianjur", "kategori": "Makanan Berat", "alamat": "Jl. Gerilya", "jam": "11:00 - 22:00", "harga": "Rp18000 - Rp35000", "deskripsi": "Nasi Bakar Ayam. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Nasi+Bakar+Cianjur", "lat": -7.42463, "lng": 109.22344, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Gerilya", "verified": true, "reviews": [] },
+    { "id": 245, "nama": "Depot Es Durian", "kategori": "Minuman", "alamat": "Purwokerto Kidul", "jam": "09:00 - 21:00", "harga": "Rp15000 - Rp40000", "deskripsi": "Es Durian. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Depot+Es+Durian", "lat": -7.4244, "lng": 109.25922, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Purwokerto Kidul", "verified": true, "reviews": [] },
+    { "id": 246, "nama": "Ayam Goreng Mbok Berek", "kategori": "Makanan Berat", "alamat": "Jl. Overste Isdiman", "jam": "10:00 - 20:00", "harga": "Rp20000 - Rp35000", "deskripsi": "Ayam Goreng Kampung. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Ayam+Goreng+Mbok+Berek", "lat": -7.42863, "lng": 109.2234, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Overste Isdiman", "verified": true, "reviews": [] },
+    { "id": 247, "nama": "Tengkleng Kambing Solo", "kategori": "Makanan Berat", "alamat": "Jl. Mayjend Sungkono", "jam": "08:00 - 16:00", "harga": "Rp25000 - Rp45000", "deskripsi": "Tengkleng Kambing. Warung Tetap.", "foto": "https://via.placeholder.com/400x200?text=Tengkleng+Kambing+Solo", "lat": -7.43247, "lng": 109.24349, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Jl. Mayjend Sungkono", "verified": true, "reviews": [] },
+    { "id": 248, "nama": "Serabi Notosuman", "kategori": "Makanan Berat", "alamat": "Alun-alun Purwokerto", "jam": "14:00 - 21:00", "harga": "Rp8000 - Rp15000", "deskripsi": "Serabi Solo. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Serabi+Notosuman", "lat": -7.40135, "lng": 109.25312, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Alun-alun Purwokerto", "verified": true, "reviews": [] },
+    { "id": 249, "nama": "Susu Jahe Pak Kumis", "kategori": "Minuman", "alamat": "Terminal Purwokerto", "jam": "17:00 - 23:00", "harga": "Rp7000 - Rp12000", "deskripsi": "Susu Jahe Hangat. Gerobak Tetap.", "foto": "https://via.placeholder.com/400x200?text=Susu+Jahe+Pak+Kumis", "lat": -7.41054, "lng": 109.25758, "keliling": false, "halal": "halal", "kontak": "-", "parkir": "Tersedia", "rute": "Terminal Purwokerto", "verified": true, "reviews": [] },
 ];
 
 const initialBeritaData = [
@@ -1420,11 +539,52 @@ function populateFilters() {
     const categories = ["Soto", "Sate", "Bakso", "Gudeg", "Ayam", "Lontong", "Jajanan Tradisional", "Makanan Berat", "Minuman"];
     const select = document.getElementById('categoryFilter');
     if (select) {
-        select.innerHTML = '<option value="">Kategori</option>';
+        select.innerHTML = '<option value="">🏷️ Semua Kategori</option>';
         categories.forEach(cat => {
             select.innerHTML += `<option value="${cat}">${cat}</option>`;
         });
     }
+    renderCategoryButtons(categories);
+}
+
+function renderCategoryButtons(categories) {
+    const container = document.getElementById('menuCategories');
+    if (!container) return;
+
+    container.innerHTML = categories.map(cat => `
+        <button class="category-btn" onclick="quickFilter('${cat}')">
+            ${getCategoryIcon(cat)} ${cat}
+        </button>
+    `).join('');
+}
+
+function getCategoryIcon(cat) {
+    const icons = {
+        'Soto': '🍲', 'Sate': '🍢', 'Bakso': '🍜', 'Gudeg': '🍛',
+        'Ayam': '🍗', 'Lontong': '🥘', 'Minuman': '🥤',
+        'Jajanan Tradisional': '🍡', 'Makanan Berat': '🍽️'
+    };
+    return icons[cat] || '🍴';
+}
+
+function setupEventListeners() {
+    // Search Input
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            applyFilters();
+        });
+    }
+
+    // Dropdown Filters
+    ['categoryFilter', 'typeFilter', 'halalFilter', 'sortFilter'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', applyFilters);
+    });
+
+    // Checkbox Filter
+    const openNow = document.getElementById('openNowFilter');
+    if (openNow) openNow.addEventListener('change', applyFilters);
 }
 
 function applyFilters() {
@@ -1499,8 +659,13 @@ function renderKulinerList(data = state.kulinerData) {
 
     if (data.length === 0) {
         list.innerHTML = '<div class="empty-state"><p>Tidak ada hasil ditemukan</p></div>';
+        const countEl = document.getElementById('resultCount');
+        if (countEl) countEl.innerText = '0 hasil';
         return;
     }
+
+    const countEl = document.getElementById('resultCount');
+    if (countEl) countEl.innerText = `${data.length} hasil`;
 
     list.innerHTML = data.map(item => `
         <div class="kuliner-card" onclick="showDetail(${item.id})" style="cursor:pointer; margin-bottom:15px; background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
@@ -1565,6 +730,54 @@ function showDetail(id) {
                     <i class="fas fa-store-alt"></i> ${item.claimStatus === 'pending' ? 'Menunggu Verifikasi' : (item.claimStatus === 'verified' ? 'Milik Anda' : 'Klaim Bisnis')}
                 </button>
             </div>
+/* Menu Display */
+            <div style="margin-top:20px;">
+                <h3 style="font-size:16px; border-bottom:2px solid #eee; padding-bottom:5px;">📋 Daftar Menu</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
+                    ${item.menu && item.menu.length > 0 ? item.menu.map(m => `
+                        <div style="background:white; padding:8px; border:1px solid #eee; border-radius:6px;">
+                            ${m.name} <span style="float:right; color:orange;">${m.price}</span>
+                        </div>
+                    `).join('') : '<p style="grid-column: 1 / -1; color:#999; text-align:center;">Informasi menu belum tersedia.</p>'}
+                </div>
+            </div>
+
+            /* Reviews Section */
+            <div style="margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eee; padding-bottom:5px;">
+                    <h3 style="font-size:16px; margin:0;">⭐ Ulasan (${item.reviews.length})</h3>
+                    <button onclick="toggleReviewForm()" class="btn-xs" style="background:var(--primary); color:white;">+ Tulis Review</button>
+                </div>
+                
+                /* Review Form (Hidden) */
+                <div id="reviewForm" style="display:none; background:#f9f9f9; padding:15px; border-radius:10px; margin-top:10px;">
+                    <h4 style="margin-top:0;">Bagikan Pengalamanmu</h4>
+                    <select id="reviewRating" style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px;">
+                        <option value="5">⭐⭐⭐⭐⭐ (Sangat Enak)</option>
+                        <option value="4">⭐⭐⭐⭐ (Enak)</option>
+                        <option value="3">⭐⭐⭐ (Biasa Aja)</option>
+                        <option value="2">⭐⭐ (Kurang)</option>
+                        <option value="1">⭐ (Sangat Kurang)</option>
+                    </select>
+                    <textarea id="reviewText" placeholder="Tulis ulasanmu di sini..." style="width:100%; height:80px; padding:8px; border-radius:5px; border:1px solid #ccc;"></textarea>
+                    <button onclick="submitReview(${item.id})" style="background:var(--primary); color:white; padding:8px 15px; border-radius:5px; margin-top:5px; border:none; width:100%;">Kirim Ulasan</button>
+                </div>
+
+                /* Review List */
+                <div style="margin-top:10px; max-height:200px; overflow-y:auto;">
+                    ${item.reviews.length > 0 ? item.reviews.map(r => `
+                        <div style="padding:10px; border-bottom:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <b>${r.name}</b>
+                                <span style="color:orange;">${'⭐'.repeat(r.rating)}</span>
+                            </div>
+                            <p style="margin:5px 0; color:#555; font-size:13px;">${r.comment}</p>
+                            <small style="color:#999;">${r.date}</small>
+                        </div>
+                    `).join('') : '<p style="color:#999; text-align:center; padding:10px;">Belum ada ulasan. Jadilah yang pertama!</p>'}
+                </div>
+            </div>
+
             ${adminControls}
         </div>
     `;
@@ -1581,9 +794,10 @@ function closeModal() {
 // CHATBOT AI (MakanBot)
 // ============================================
 function toggleChat() {
-    document.getElementById('chatPanel').classList.toggle('active'); // Changed to toggle Class
+    const panel = document.getElementById('chatbot'); // Fixed ID from chatPanel to chatbot
+    if (!panel) return;
+    panel.classList.toggle('active');
     // Ensure display logic in CSS handles .active
-    const panel = document.getElementById('chatPanel');
     if (panel.style.display === 'flex') {
         panel.style.display = 'none';
         panel.classList.remove('active');
@@ -1714,16 +928,22 @@ async function fetchWeather() {
 }
 
 function updateWeatherUI() {
-    const el = document.getElementById('weatherWidget');
-    if (!el || !state.weather) return;
+    // Target specific elements instead of replacing the entire widget
+    const tempEl = document.getElementById('weatherTemp');
+    const iconEl = document.getElementById('weatherIcon');
 
-    let icon = '☀️';
-    // Simplified mapping
-    if (['119', '122'].includes(state.weather.code)) icon = '☁️';
-    if (['266', '296', '308'].includes(state.weather.code)) icon = '🌧️';
+    if (!state.weather) return;
 
-    el.innerHTML = `<span class="weather-icon">${icon}</span> <span class="weather-temp">${state.weather.temp}°C</span>`;
-    el.onclick = getWeatherRecommendation;
+    if (tempEl) tempEl.innerText = `${state.weather.temp}°C`;
+
+    if (iconEl) {
+        let iconClass = 'fa-cloud-sun';
+        // Simplified mapping
+        if (['119', '122'].includes(state.weather.code)) iconClass = 'fa-cloud';
+        if (['266', '296', '308'].includes(state.weather.code)) iconClass = 'fa-cloud-showers-heavy';
+
+        iconEl.className = `fas ${iconClass}`;
+    }
 }
 
 function getWeatherRecommendation() {
@@ -1847,14 +1067,17 @@ window.showWeatherRec = getWeatherRecommendation;
 window.locateUser = sortByDistance;
 
 window.filterHalal = () => {
+    setActiveChip('halal');
     const el = document.getElementById('halalFilter');
     if (el) {
-        el.value = 'halal';
+        el.value = el.value === 'halal' ? '' : 'halal'; // Toggle
         applyFilters();
-        showToast("Menampilkan Kuliner Halal ✅");
+        if (el.value === 'halal') showToast("Menampilkan Kuliner Halal ✅");
     }
 };
+
 window.sortPrice = () => {
+    setActiveChip('budget');
     const el = document.getElementById('sortFilter');
     if (el) {
         el.value = 'harga-asc';
@@ -1862,7 +1085,9 @@ window.sortPrice = () => {
         showToast("Diurutkan: Harga Terhemat 💰");
     }
 };
+
 window.sortRating = () => {
+    setActiveChip('best');
     const el = document.getElementById('sortFilter');
     if (el) {
         el.value = 'rating';
@@ -1870,14 +1095,41 @@ window.sortRating = () => {
         showToast("Diurutkan: Rating Tertinggi ⭐");
     }
 };
-window.quickFilter = (type) => {
-    if (type === 'all') {
+
+window.quickFilter = (val) => {
+    if (val === 'all') {
         document.querySelectorAll('select').forEach(s => s.value = '');
         const search = document.getElementById('searchInput');
         if (search) search.value = '';
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        document.querySelector('.chip[data-filter="all"]').classList.add('active');
+        // Reset category buttons
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
         applyFilters();
+    } else {
+        // Assume val is a category name
+        const catFilter = document.getElementById('categoryFilter');
+        if (catFilter) {
+            catFilter.value = val;
+            applyFilters();
+        }
+
+        // Highlight category button
+        document.querySelectorAll('.category-btn').forEach(b => {
+            if (b.textContent.includes(val)) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+
+        // Unset "All" chip
+        document.querySelector('.chip[data-filter="all"]').classList.remove('active');
     }
 };
+
+function setActiveChip(type) {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    const target = document.querySelector(`.chip[data-filter="${type}"]`);
+    if (target) target.classList.add('active');
+}
 
 window.showAddKulinerModal = showSubmitForm;
 window.toggleSidebar = () => {
@@ -1901,3 +1153,6 @@ window.toggleAdvancedFilters = () => {
 };
 
 window.showPrivacyPolicy = () => alert("Kebijakan Privasi:\nData disimpan lokal di browser Anda. Kami menjamin keamanan data pengguna.");
+
+// Initialize App
+document.addEventListener('DOMContentLoaded', initApp);

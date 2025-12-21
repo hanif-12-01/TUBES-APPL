@@ -550,3 +550,34 @@ if (document.readyState === 'loading') {
 }
 
 console.log('[FEATURES] Additional FR & NFR features loaded successfully');
+
+
+/* Review Helpers */
+window.toggleReviewForm = () => {
+    const form = document.getElementById('reviewForm');
+    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+};
+
+window.submitReview = (id) => {
+    const rating = parseInt(document.getElementById('reviewRating').value);
+    const comment = document.getElementById('reviewText').value;
+    
+    if (!comment) return showToast('Mohon isi ulasan Anda!', 'error');
+
+    const item = state.kulinerData.find(k => k.id === id);
+    if (!item) return;
+
+    const newReview = {
+        userId: state.currentUser ? state.currentUser.id : 999,
+        name: state.currentUser ? state.currentUser.name : 'Pengunjung',
+        rating: rating,
+        comment: comment,
+        date: new Date().toISOString().split('T')[0]
+    };
+
+    item.reviews.unshift(newReview);
+    DB.set('kuliner', state.kulinerData);
+    
+    showToast('Terima kasih! Ulasan berhasil dikirim. ');
+    showDetail(id);
+};
